@@ -11,5 +11,5 @@ public interface DataDAO {
 
     Data read(String src) throws IOException;
 
-    void write(String data) throws IOException;
+    void write(Data data, String src) throws IOException;
 }

@@ -1,15 +1,10 @@
 package ru.mifodiy777.task.DAO.impl;
 
-import org.dom4j.*;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
+
 import ru.mifodiy777.task.DAO.DataDAO;
 import ru.mifodiy777.task.entity.Data;
-import org.dom4j.io.SAXReader;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -17,48 +12,31 @@ import java.util.List;
  */
 public class DataDAOImpl implements DataDAO {
 
-
-    public Data read(String src) throws IOException {
-        try {
-            File inputFile = new File(src);
-            SAXReader reader = new SAXReader();
-            Document document = reader.read(inputFile);
-            Element classElement = document.getRootElement();
-            List<Node> nodes = document.selectNodes("/class/student");
-            for (Node node : nodes) {
-
-            }
-        } catch (DocumentException e) {
-            e.printStackTrace();
+    public Data read(String src) {
+        Data data = null;
+        try (FileInputStream fileInputStream = new FileInputStream(src);
+             ObjectInputStream inputStream = new ObjectInputStream(fileInputStream)) {
+            data = (Data) inputStream.readObject();
+        } catch (IOException e) {
+            System.out.println("Не найден файл!");
+        } catch (ClassNotFoundException e1) {
+            System.out.println("В файле не найден объект Data");
         }
-        return null;
+        return data;
     }
 
 
-    public void write(String data) throws IOException {
-        try {
-            Document document = DocumentHelper.createDocument();
-            Element root = document.addElement( "cars" );
-            Element supercarElement= root.addElement("supercars")
-                    .addAttribute("company", "Ferrai");
-
-            supercarElement.addElement("carname")
-                    .addAttribute("type", "Ferrari 101")
-                    .addText("Ferrari 101");
-
-            supercarElement.addElement("carname")
-                    .addAttribute("type", "sports")
-                    .addText("Ferrari 202");
-
-            // Pretty print the document to System.out
-            OutputFormat format = OutputFormat.createPrettyPrint();
-            XMLWriter writer;
-            writer = new XMLWriter( System.out, format );
-            writer.write( document );
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+    public void write(Data data, String src) {
+        try ( FileOutputStream fileStream = new FileOutputStream(src);
+              ObjectOutputStream out = new ObjectOutputStream(fileStream)){
+            out.writeObject(data);
+            out.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Не найден файл!");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Ошибка ввода вывода");
         }
+
+
     }
 }

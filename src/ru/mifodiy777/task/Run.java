@@ -23,6 +23,10 @@ public class Run {
     private AtomicInteger count = new AtomicInteger(0);
 
     public static void main(String[] args) {
+        if(args.length==0){
+            System.out.println("Нет ресурсов для загрузки в кеш");
+            return;
+        }
         Run run = new Run();
         for (String src : args) {
             if (src != null && !src.isEmpty()) {

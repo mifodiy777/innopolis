@@ -38,7 +38,7 @@ public class ResourceThread extends Thread {
         } else {
             dataList = dataDAO.readFile(src);
         }
-        if (dataList != null) {
+        if (dataList != null && dataList.size() > 0) {
             try {
                 service.putAll(dataList);
                 sum.addAndGet(1);

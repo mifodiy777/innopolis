@@ -7,7 +7,6 @@ import java.io.Serializable;
  * Created by innopolis on 04.10.16.
  */
 
-@XmlRootElement
 public class Data implements Serializable {
 
     private Integer id;
@@ -15,6 +14,15 @@ public class Data implements Serializable {
     private String name;
 
     private Long data;
+
+    public Data(Integer id, String name, Long data) {
+        this.id = id;
+        this.name = name;
+        this.data = data;
+    }
+
+    public Data() {
+    }
 
     public Integer getId() {
         return id;

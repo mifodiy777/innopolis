@@ -1,15 +1,20 @@
 package ru.mifodiy777.task.DAO;
 
 import ru.mifodiy777.task.entity.Data;
-
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by innopolis on 04.10.16.
  */
 public interface DataDAO {
 
-    Data read(String src) throws IOException;
+    List<Data> readFile(String src);
 
-    void write(Data data, String src) throws IOException;
+    void writeToFile(Map<Integer,Data> set);
+
+    List<Data> readUrl(String src);
+
 }

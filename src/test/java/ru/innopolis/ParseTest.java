@@ -1,3 +1,5 @@
+package ru.innopolis;
+
 import org.junit.Test;
 
 /**

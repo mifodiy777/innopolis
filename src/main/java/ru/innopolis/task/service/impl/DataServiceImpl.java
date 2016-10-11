@@ -1,9 +1,9 @@
-package ru.mifodiy777.task.service.impl;
+package ru.innopolis.task.service.impl;
 
-import ru.mifodiy777.task.DAO.DataDAO;
-import ru.mifodiy777.task.DublicatException;
-import ru.mifodiy777.task.entity.Data;
-import ru.mifodiy777.task.service.DataService;
+import ru.innopolis.task.DAO.DataDAO;
+import ru.innopolis.task.DublicatException;
+import ru.innopolis.task.entity.Data;
+import ru.innopolis.task.service.DataService;
 
 import java.util.List;
 import java.util.Map;

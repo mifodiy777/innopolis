@@ -1,9 +1,8 @@
-package ru.mifodiy777.task.service;
+package ru.innopolis.task.service;
 
-import ru.mifodiy777.task.DublicatException;
-import ru.mifodiy777.task.entity.Data;
+import ru.innopolis.task.DublicatException;
+import ru.innopolis.task.entity.Data;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by innopolis on 04.10.16.

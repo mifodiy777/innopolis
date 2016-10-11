@@ -1,10 +1,10 @@
-package ru.mifodiy777.task;
+package ru.innopolis.task;
 
-import ru.mifodiy777.task.DAO.DataDAO;
-import ru.mifodiy777.task.DAO.impl.DataDAOImpl;
-import ru.mifodiy777.task.entity.Data;
-import ru.mifodiy777.task.service.DataService;
-import ru.mifodiy777.task.service.impl.DataServiceImpl;
+import ru.innopolis.task.DAO.DataDAO;
+import ru.innopolis.task.DAO.impl.DataDAOImpl;
+import ru.innopolis.task.entity.Data;
+import ru.innopolis.task.service.DataService;
+import ru.innopolis.task.service.impl.DataServiceImpl;
 
 import java.util.List;
 import java.util.Map;

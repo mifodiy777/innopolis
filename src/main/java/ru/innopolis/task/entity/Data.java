@@ -1,6 +1,5 @@
-package ru.mifodiy777.task.entity;
+package ru.innopolis.task.entity;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**

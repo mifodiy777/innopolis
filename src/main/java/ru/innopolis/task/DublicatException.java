@@ -1,4 +1,4 @@
-package ru.mifodiy777.task;
+package ru.innopolis.task;
 
 /**
  * Created by innopolis on 10.10.16.

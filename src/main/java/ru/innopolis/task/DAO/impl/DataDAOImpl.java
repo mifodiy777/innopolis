@@ -1,17 +1,15 @@
-package ru.mifodiy777.task.DAO.impl;
+package ru.innopolis.task.DAO.impl;
 
 
-import ru.mifodiy777.task.DAO.DataDAO;
-import ru.mifodiy777.task.entity.Data;
+import ru.innopolis.task.DAO.DataDAO;
+import ru.innopolis.task.entity.Data;
 
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by innopolis on 04.10.16.

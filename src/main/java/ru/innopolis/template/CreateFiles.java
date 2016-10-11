@@ -1,8 +1,8 @@
-package ru.mifodiy777.template;
+package ru.innopolis.template;
 
-import ru.mifodiy777.task.DAO.DataDAO;
-import ru.mifodiy777.task.DAO.impl.DataDAOImpl;
-import ru.mifodiy777.task.entity.Data;
+import ru.innopolis.task.DAO.DataDAO;
+import ru.innopolis.task.DAO.impl.DataDAOImpl;
+import ru.innopolis.task.entity.Data;
 
 import java.util.HashMap;
 import java.util.Map;

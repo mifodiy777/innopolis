@@ -46,7 +46,7 @@ public class Run {
                 try {
                     startWrite = (reader.readLine().toUpperCase().startsWith("Y"));
                 } catch (IOException e) {
-                    logger.error("error i/o in write to file");
+                    logger.error("error i/o in write to file " + e.getMessage());
                     System.out.println("Ошибка ввода/вывода");
                 }
                 if (startWrite) {

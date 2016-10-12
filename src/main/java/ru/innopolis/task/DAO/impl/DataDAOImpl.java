@@ -32,11 +32,11 @@ public class DataDAOImpl implements DataDAO {
             }
         } catch (IOException e) {
             if(dataList.isEmpty()){
-                logger.error("in file not date for deserialization");
+                logger.error("in file not date for deserialization " + e.getMessage());
                 System.out.println("Не найдено данных для оъекта Data");
             }
-        } catch (ClassNotFoundException e1) {
-            logger.warn("ClassNotFoundException in readFile");
+        } catch (ClassNotFoundException e) {
+            logger.warn("ClassNotFoundException in readFile " + e.getMessage());
             System.out.println("В файле не найден объект Data");
         }
         return dataList;
@@ -53,17 +53,17 @@ public class DataDAOImpl implements DataDAO {
                     dataList.add((Data) inputStream.readObject());
                 }
             } catch (IOException e) {
-                logger.error("error i/o in readUrl");
+                logger.error("error i/o in readUrl " + e.getMessage());
                 System.out.println("Ошибка ввода/вывода");
 
             } catch (ClassNotFoundException e) {
                 if(dataList.isEmpty()){
-                    logger.error("in file not date for deserialization");
+                    logger.error("in file not date for deserialization " + e.getMessage());
                     System.out.println("Не найдено данных для оъекта Data");
                 }
             }
         } catch (MalformedURLException e) {
-            logger.error("error conection url");
+            logger.error("error conection url " + e.getMessage());
             System.out.println("Ошибка подключение к URL");
         }
         return dataList;
@@ -79,12 +79,12 @@ public class DataDAOImpl implements DataDAO {
             System.out.println("Файл записан;");
             return true;
         } catch (FileNotFoundException e) {
-            logger.error("file not found for writeFile");
+            logger.error("file not found for writeFile " + e.getMessage());
             System.out.println("Не найден файл!");
             return false;
         } catch (IOException e) {
             logger.error("error i/o write file");
-            System.out.println("Ошибка ввода вывода");
+            System.out.println("Ошибка ввода вывода " + e.getMessage());
             return false;
         }
 

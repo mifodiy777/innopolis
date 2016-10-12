@@ -15,11 +15,8 @@ public class DataServiceImpl implements DataService {
 
     private Map<Integer, Data> dataMap;
 
-    private DataDAO dataDAO;
-
-    public DataServiceImpl(Map<Integer, Data> dataMap, DataDAO dataDAO) {
+    public DataServiceImpl(Map<Integer, Data> dataMap) {
         this.dataMap = dataMap;
-        this.dataDAO = dataDAO;
     }
 
     @Override

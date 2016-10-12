@@ -35,7 +35,7 @@ public class ResourceThread extends Thread {
     @Override
     public void run() {
         DataDAO dataDAO = new DataDAOImpl();
-        DataService service = new DataServiceImpl(map, dataDAO);
+        DataService service = new DataServiceImpl(map);
         List<Data> dataList;
         if (src.startsWith("http")) {
             dataList = dataDAO.readUrl(src);
@@ -47,7 +47,7 @@ public class ResourceThread extends Thread {
                 service.putAll(dataList);
                 sum.addAndGet(1);
             } catch (DublicatException e) {
-                logger.error("in cache exist object Data");
+                logger.error("in cache exist object Data " + e.getMessage());
                 Runtime process = Runtime.getRuntime();
                 process.exit(1);
             }

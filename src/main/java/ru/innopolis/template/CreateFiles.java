@@ -16,12 +16,12 @@ public class CreateFiles {
 
     public static void main(String[] args) {
         new CreateFiles().createData();
-
-
     }
 
+    /**
+     * Метод формирования тестового файла
+     */
     public void createData() {
-
         Data data1 = new Data(6, "six", 100l);
         Data data2 = new Data(7, "seven", 200l);
         Data data3 = new Data(8, "eight", 300l);

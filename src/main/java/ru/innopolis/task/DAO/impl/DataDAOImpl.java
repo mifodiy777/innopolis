@@ -21,7 +21,11 @@ public class DataDAOImpl implements DataDAO {
 
     private static Logger logger = LoggerFactory.getLogger(DataDAOImpl.class);
 
-
+    /**
+     * Метод чтения из файла
+     * @param src Путь к файлу
+     * @return Коллекция десериализованных объектов Data
+     */
     @Override
     public List<Data> readFile(String src) {
         List<Data> dataList = new ArrayList<>();
@@ -42,6 +46,11 @@ public class DataDAOImpl implements DataDAO {
         return dataList;
     }
 
+    /**
+     * Метод чтений из URL
+     * @param src путь с обязательным префиксом "http"
+     * @return Коллекция десериализованных объектов Data
+     */
     @Override
     public List<Data> readUrl(String src) {
         List<Data> dataList = new ArrayList<>();
@@ -69,6 +78,11 @@ public class DataDAOImpl implements DataDAO {
         return dataList;
     }
 
+    /**
+     * Сериализация объектов Data  с последующей записью в файл download.bin в корень приложения
+     * @param set Кеш объектов
+     * @return true - запись успешно завершена
+     */
     @Override
     public boolean writeToFile(Map<Integer,Data> set) {
         try (FileOutputStream fileStream = new FileOutputStream("../download.bin");

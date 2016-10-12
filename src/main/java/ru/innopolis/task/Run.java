@@ -25,6 +25,7 @@ public class Run {
     private AtomicInteger count = new AtomicInteger(0);
 
     public static void main(String[] args) {
+        //Проверка на ресурсы
         if(args.length==0){
             System.out.println("Нет ресурсов для загрузки в кеш");
             logger.warn("is't resources for download cache");
@@ -33,10 +34,12 @@ public class Run {
         Run run = new Run();
         for (String src : args) {
             if (src != null && !src.isEmpty()) {
+                    //Запуск потока под каждый ресурс
                     new ResourceThread(run.globalMap,run.count, src);
             }
         }
         while (true) {
+            //Сравнение загруженных ресурсов с их исходным числом
             if(args.length == run.count.get()) {
                 System.out.println("Данные успешно загружены в кеш");
                 logger.info("download cache complete");
@@ -44,6 +47,7 @@ public class Run {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                 boolean startWrite = false;
                 try {
+                    //Если первая буква Y то файл будет выгружен
                     startWrite = (reader.readLine().toUpperCase().startsWith("Y"));
                 } catch (IOException e) {
                     logger.error("error i/o in write to file " + e.getMessage());
@@ -52,6 +56,7 @@ public class Run {
                 if (startWrite) {
                     new DataDAOImpl().writeToFile(run.globalMap);
                 }
+                //После чего программа будет выполненна
                 break;
             }
         }

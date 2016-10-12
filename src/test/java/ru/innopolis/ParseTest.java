@@ -23,11 +23,19 @@ import java.util.zip.DataFormatException;
  */
 public class ParseTest {
 
+    /**
+     * Тест на не правельно введеный ресурс
+     */
     @Test
     public void testEmptyFileRead() {
         DataDAO dataDAO = new DataDAOImpl();
-        Assert.assertNotNull(dataDAO.readFile("svssdv"));
+        Assert.assertNotNull(dataDAO.readFile("qqq"));
     }
+
+    /**
+     * Тест работы исключения при загрузки дубликата
+     * @throws DublicatException
+     */
 
     @Test(expected = DublicatException.class)
     public void testDublicatPut() throws DublicatException {

@@ -12,7 +12,7 @@ public interface DataDAO {
 
     List<Data> readFile(String src);
 
-    void writeToFile(Map<Integer,Data> set);
+    boolean writeToFile(Map<Integer,Data> set);
 
     List<Data> readUrl(String src);
 

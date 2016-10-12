@@ -1,5 +1,7 @@
 package ru.innopolis.task;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.innopolis.task.DAO.DataDAO;
 import ru.innopolis.task.DAO.impl.DataDAOImpl;
 import ru.innopolis.task.entity.Data;
@@ -14,6 +16,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Created by innopolis on 10.10.16.
  */
 public class ResourceThread extends Thread {
+
+    private static Logger logger = LoggerFactory.getLogger(ResourceThread.class);
 
     private Map<Integer, Data> map;
 
@@ -43,6 +47,7 @@ public class ResourceThread extends Thread {
                 service.putAll(dataList);
                 sum.addAndGet(1);
             } catch (DublicatException e) {
+                logger.error("in cache exist object Data");
                 Runtime process = Runtime.getRuntime();
                 process.exit(1);
             }

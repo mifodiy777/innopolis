@@ -1,5 +1,7 @@
 package ru.innopolis.task;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.innopolis.task.DAO.impl.DataDAOImpl;
 import ru.innopolis.task.entity.Data;
 
@@ -10,10 +12,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+
 /**
  * Created by innopolis on 06.10.16.
  */
 public class Run {
+
+    private static Logger logger = LoggerFactory.getLogger(Run.class);
 
     private volatile Map<Integer, Data> globalMap = new ConcurrentHashMap<>();
 
@@ -22,6 +27,7 @@ public class Run {
     public static void main(String[] args) {
         if(args.length==0){
             System.out.println("Нет ресурсов для загрузки в кеш");
+            logger.warn("is't resources for download cache");
             return;
         }
         Run run = new Run();
@@ -33,12 +39,14 @@ public class Run {
         while (true) {
             if(args.length == run.count.get()) {
                 System.out.println("Данные успешно загружены в кеш");
+                logger.info("download cache complete");
                 System.out.println("Хотите выполнить выгрузку кеша в файл Y/N");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                 boolean startWrite = false;
                 try {
                     startWrite = (reader.readLine().toUpperCase().startsWith("Y"));
                 } catch (IOException e) {
+                    logger.error("error i/o in write to file");
                     System.out.println("Ошибка ввода/вывода");
                 }
                 if (startWrite) {

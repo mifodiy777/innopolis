@@ -1,7 +1,10 @@
 package ru.innopolis.task.DAO.impl;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.innopolis.task.DAO.DataDAO;
+import ru.innopolis.task.ResourceThread;
 import ru.innopolis.task.entity.Data;
 
 import java.io.*;
@@ -16,6 +19,8 @@ import java.util.Map;
  */
 public class DataDAOImpl implements DataDAO {
 
+    private static Logger logger = LoggerFactory.getLogger(DataDAOImpl.class);
+
 
     @Override
     public List<Data> readFile(String src) {
@@ -27,9 +32,11 @@ public class DataDAOImpl implements DataDAO {
             }
         } catch (IOException e) {
             if(dataList.isEmpty()){
+                logger.error("in file not date for deserialization");
                 System.out.println("Не найдено данных для оъекта Data");
             }
         } catch (ClassNotFoundException e1) {
+            logger.warn("ClassNotFoundException in readFile");
             System.out.println("В файле не найден объект Data");
         }
         return dataList;
@@ -46,31 +53,39 @@ public class DataDAOImpl implements DataDAO {
                     dataList.add((Data) inputStream.readObject());
                 }
             } catch (IOException e) {
+                logger.error("error i/o in readUrl");
                 System.out.println("Ошибка ввода/вывода");
 
             } catch (ClassNotFoundException e) {
                 if(dataList.isEmpty()){
+                    logger.error("in file not date for deserialization");
                     System.out.println("Не найдено данных для оъекта Data");
                 }
             }
         } catch (MalformedURLException e) {
+            logger.error("error conection url");
             System.out.println("Ошибка подключение к URL");
         }
         return dataList;
     }
 
     @Override
-    public void writeToFile(Map<Integer,Data> set) {
+    public boolean writeToFile(Map<Integer,Data> set) {
         try (FileOutputStream fileStream = new FileOutputStream("../download.bin");
              ObjectOutputStream out = new ObjectOutputStream(fileStream)) {
             for (Data data : set.values()) {
                 out.writeObject(data);
             }
             System.out.println("Файл записан;");
+            return true;
         } catch (FileNotFoundException e) {
+            logger.error("file not found for writeFile");
             System.out.println("Не найден файл!");
+            return false;
         } catch (IOException e) {
+            logger.error("error i/o write file");
             System.out.println("Ошибка ввода вывода");
+            return false;
         }
 
     }

@@ -1,6 +1,7 @@
 package ru.innopolis;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.innopolis.task.DAO.DataDAO;
 import ru.innopolis.task.DAO.impl.DataDAOFileImpl;
@@ -23,7 +24,7 @@ public class ParseTest {
     /**
      * Тест на не правельно введеный ресурс
      */
-    @Test
+    @BeforeClass
     public void testEmptyFileRead() {
         DataDAO dataDAO = new DataDAOFileImpl();
         Assert.assertNotNull(dataDAO.read("qqq"));

@@ -10,10 +10,10 @@ import java.util.Map;
  */
 public interface DataDAO {
 
-    List<Data> readFile(String src);
+    List<Data> read(String src);
 
-    boolean writeToFile(Map<Integer,Data> set);
+    boolean write(Map<Integer,Data> set);
 
-    List<Data> readUrl(String src);
+
 
 }

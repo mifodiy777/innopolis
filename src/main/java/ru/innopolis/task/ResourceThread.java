@@ -3,7 +3,8 @@ package ru.innopolis.task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.innopolis.task.DAO.DataDAO;
-import ru.innopolis.task.DAO.impl.DataDAOImpl;
+import ru.innopolis.task.DAO.impl.DataDAOFileImpl;
+import ru.innopolis.task.DAO.impl.DataDAOUrlImpl;
 import ru.innopolis.task.entity.Data;
 import ru.innopolis.task.service.DataService;
 import ru.innopolis.task.service.impl.DataServiceImpl;
@@ -35,14 +36,16 @@ public class ResourceThread extends Thread {
 
     @Override
     public void run() {
-        DataDAO dataDAO = new DataDAOImpl();
+        DataDAO dataDAO;
         DataService service = new DataServiceImpl(map);
         List<Data> dataList;
         //Проверка ресурса URL или файл на локальной машине
         if (src.toLowerCase().startsWith("http")) {
-            dataList = dataDAO.readUrl(src);
+            dataDAO = new DataDAOUrlImpl();
+            dataList = dataDAO.read(src);
         } else {
-            dataList = dataDAO.readFile(src);
+            dataDAO = new DataDAOFileImpl();
+            dataList = dataDAO.read(src);
         }
         //Если получилось сформировать коллекцию Data из ресурса
         if (dataList != null && dataList.size() > 0) {

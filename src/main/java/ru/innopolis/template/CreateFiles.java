@@ -1,7 +1,7 @@
 package ru.innopolis.template;
 
 import ru.innopolis.task.DAO.DataDAO;
-import ru.innopolis.task.DAO.impl.DataDAOImpl;
+import ru.innopolis.task.DAO.impl.DataDAOFileImpl;
 import ru.innopolis.task.entity.Data;
 
 import java.util.HashMap;
@@ -34,8 +34,8 @@ public class CreateFiles {
         dataMap.put(data4.getId(), data4);
         dataMap.put(data5.getId(), data5);
 
-        DataDAO dataDAO = new DataDAOImpl();
-        dataDAO.writeToFile(dataMap);
+        DataDAO dataDAO = new DataDAOFileImpl();
+        dataDAO.write(dataMap);
     }
 
 

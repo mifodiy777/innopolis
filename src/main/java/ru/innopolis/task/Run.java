@@ -2,7 +2,7 @@ package ru.innopolis.task;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.innopolis.task.DAO.impl.DataDAOImpl;
+import ru.innopolis.task.DAO.impl.DataDAOFileImpl;
 import ru.innopolis.task.entity.Data;
 
 import java.io.BufferedReader;
@@ -54,7 +54,7 @@ public class Run {
                     System.out.println("Ошибка ввода/вывода");
                 }
                 if (startWrite) {
-                    new DataDAOImpl().writeToFile(run.globalMap);
+                    new DataDAOFileImpl().write(run.globalMap);
                 }
                 //После чего программа будет выполненна
                 break;

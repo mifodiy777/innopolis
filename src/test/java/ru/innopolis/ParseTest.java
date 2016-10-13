@@ -2,21 +2,18 @@ package ru.innopolis;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.internal.runners.statements.Fail;
 import ru.innopolis.task.DAO.DataDAO;
-import ru.innopolis.task.DAO.impl.DataDAOImpl;
+import ru.innopolis.task.DAO.impl.DataDAOFileImpl;
 import ru.innopolis.task.DublicatException;
 import ru.innopolis.task.entity.Data;
 import ru.innopolis.task.service.DataService;
 import ru.innopolis.task.service.impl.DataServiceImpl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.zip.DataFormatException;
 
 /**
  * Created by innopolis on 09.10.16.
@@ -28,8 +25,8 @@ public class ParseTest {
      */
     @Test
     public void testEmptyFileRead() {
-        DataDAO dataDAO = new DataDAOImpl();
-        Assert.assertNotNull(dataDAO.readFile("qqq"));
+        DataDAO dataDAO = new DataDAOFileImpl();
+        Assert.assertNotNull(dataDAO.read("qqq"));
     }
 
     /**
@@ -57,6 +54,6 @@ public class ParseTest {
         Map<Integer, Data> globalMap = new HashMap<>();
         Data data1 = new Data(1, "1", 100l);
         globalMap.put(data1.getId(), data1);
-        Assert.assertTrue("Ошибка записи в файл", new DataDAOImpl().writeToFile(globalMap));
+        Assert.assertTrue("Ошибка записи в файл", new DataDAOFileImpl().write(globalMap));
     }
 }

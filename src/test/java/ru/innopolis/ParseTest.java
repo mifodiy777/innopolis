@@ -45,6 +45,20 @@ public class ParseTest {
 
     }
 
+    /**
+     * This test verify read is file
+     */
+    @Test
+    public void testRead(){
+        Map<Integer, Data> globalMap = new HashMap<>();
+        Data data1 = new Data(1, "1", 100l);
+        globalMap.put(data1.getId(), data1);
+        new DataDAOFileImpl().write(globalMap);
+        for (Data data :  new DataDAOFileImpl().read("../download.bin")){
+            Assert.assertEquals(data1,data);
+        }
+    }
+
 
     /**
      * This test write to file and serialization instance Data

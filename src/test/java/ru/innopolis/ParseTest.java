@@ -3,6 +3,8 @@ package ru.innopolis;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.innopolis.task.DAO.DataDAO;
 import ru.innopolis.task.DAO.impl.DataDAOFileImpl;
 import ru.innopolis.task.DublicatException;
@@ -21,13 +23,15 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ParseTest {
 
+    private static Logger log = LoggerFactory.getLogger(ParseTest.class);
+
     /**
      * Тест на не правельно введеный ресурс
      */
     @BeforeClass
-    public void testEmptyFileRead() {
+    public static void testEmptyFileRead() {
         DataDAO dataDAO = new DataDAOFileImpl();
-        Assert.assertNotNull(dataDAO.read("qqq"));
+        Assert.assertNotNull("Тест не пройден - не существующий файл не выдал ошибок",dataDAO.read("qqq"));
     }
 
     /**
@@ -56,7 +60,7 @@ public class ParseTest {
         globalMap.put(data1.getId(), data1);
         new DataDAOFileImpl().write(globalMap);
         for (Data data :  new DataDAOFileImpl().read("../download.bin")){
-            Assert.assertEquals(data1,data);
+            Assert.assertEquals("Тест не пройден - парсер работает не правильно",data1,data);
         }
     }
 

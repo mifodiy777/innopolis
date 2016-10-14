@@ -34,10 +34,14 @@ public class DataDAOFileImpl implements DataDAO{
             if(dataList.isEmpty()){
                 logger.error("in file not date for deserialization " + e.getMessage());
                 System.out.println("Не найдено данных для оъекта Data");
+                Runtime process = Runtime.getRuntime();
+                process.exit(1);
             }
         } catch (ClassNotFoundException e) {
             logger.warn("ClassNotFoundException in readFile " + e.getMessage());
             System.out.println("В файле не найден объект Data");
+            Runtime process = Runtime.getRuntime();
+            process.exit(1);
         }
         return dataList;
     }

@@ -11,7 +11,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.innopolis.streams.StreamWriter;
 import ru.innopolis.task.DAO.DataDAO;
 import ru.innopolis.task.DAO.impl.DataDAOFileImpl;
 import ru.innopolis.task.DublicatException;
@@ -44,7 +43,7 @@ public class ParseTest {
 
     @Before
     public void before() {
-        log.info("this method before");
+        log.info("инициализация контекста jMock");
         this.context = new JUnit4Mockery();
     }
 
@@ -82,9 +81,9 @@ public class ParseTest {
 
     @Test
     public void testReadMock() {
-        log.info("This is testHandle");
+        log.info("Тест чтения внешних ресурсов");
         final DataDAO dataDAO = context.mock(DataDAO.class);
-        List<Data> dataList = new ArrayList<Data>();
+        List<Data> dataList = new ArrayList<>();
         dataList.add(new Data(1, "1", 100l));
         context.checking(new Expectations() {{
             oneOf(dataDAO).read("../download.bin");

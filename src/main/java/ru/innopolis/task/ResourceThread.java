@@ -37,21 +37,19 @@ public class ResourceThread extends Thread {
     @Override
     public void run() {
         DataDAO dataDAO;
-        DataService service = new DataServiceImpl(map);
-        List<Data> dataList;
         //Проверка ресурса URL или файл на локальной машине
         if (src.toLowerCase().startsWith("http")) {
             dataDAO = new DataDAOUrlImpl();
-            dataList = dataDAO.read(src);
         } else {
             dataDAO = new DataDAOFileImpl();
-            dataList = dataDAO.read(src);
+
         }
+        List<Data> dataList = dataDAO.read(src);
         //Если получилось сформировать коллекцию Data из ресурса
         if (dataList != null && dataList.size() > 0) {
             try {
                 //Добавляем в кеш
-                service.putAll(dataList);
+                new DataServiceImpl(map).putAll(dataList);
                 //При успешном добавлении инкрементируем счетчик закаченных ресурсов
                 sum.addAndGet(1);
             } catch (DublicatException e) {

@@ -20,9 +20,9 @@ public class Run {
 
     private static Logger logger = LoggerFactory.getLogger(Run.class);
 
-    private volatile Map<Integer, Data> globalMap = new ConcurrentHashMap<>();
-
     private AtomicInteger count = new AtomicInteger(0);
+
+    private volatile Map<Integer, Data> globalMap = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
         //Проверка на ресурсы

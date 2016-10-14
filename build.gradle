@@ -11,6 +11,10 @@ repositories {
     mavenCentral()
 }
 
+javadoc {
+    options.charSet = 'UTF-8'
+}
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile group: 'org.jmock', name: 'jmock-junit4', version: '2.6.0'

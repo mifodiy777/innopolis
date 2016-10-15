@@ -5,10 +5,7 @@ import static org.junit.Assert.*;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.innopolis.task.DAO.DataDAO;
@@ -31,20 +28,23 @@ public class ParseTest {
 
     private static Logger log = LoggerFactory.getLogger(ParseTest.class);
 
+    private Map<Integer, Data> globalMap;
+
     private Mockery context;
+
+    @Before
+    public void before() {
+        globalMap = new HashMap<>();
+        this.context = new JUnit4Mockery();
+        log.info("инициализация контекста jMock и кеша");
+    }
 
     /**
      * Тест на не правельно введеный ресурс
      */
-    @BeforeClass
-    public static void testEmptyFileRead() {
+    @Test
+    public void testEmptyFileRead() {
         assertNotNull("Тест не пройден - не существующий файл не выдал ошибок", new DataDAOFileImpl().read("qqq"));
-    }
-
-    @Before
-    public void before() {
-        log.info("инициализация контекста jMock");
-        this.context = new JUnit4Mockery();
     }
 
     /**
@@ -55,8 +55,7 @@ public class ParseTest {
 
     @Test(expected = DublicatException.class)
     public void testDublicatPut() throws DublicatException {
-        Map<Integer, Data> integerDataMap = new ConcurrentHashMap<>();
-        DataService service = new DataServiceImpl(integerDataMap);
+        DataService service = new DataServiceImpl(globalMap);
         List<Data> dataList = new ArrayList<>();
         dataList.add(new Data(1, "1", 100l));
         service.putAll(dataList);
@@ -70,7 +69,6 @@ public class ParseTest {
     @Ignore
     @Test
     public void testRead() {
-        Map<Integer, Data> globalMap = new HashMap<>();
         Data data1 = new Data(1, "1", 100l);
         globalMap.put(data1.getId(), data1);
         new DataDAOFileImpl().write(globalMap);
@@ -79,6 +77,9 @@ public class ParseTest {
         }
     }
 
+    /**
+     * This test verify read is file using jMock
+     */
     @Test
     public void testReadMock() {
         log.info("Тест чтения внешних ресурсов");
@@ -100,9 +101,13 @@ public class ParseTest {
 
     @Test
     public void testWrite() {
-        Map<Integer, Data> globalMap = new HashMap<>();
         Data data1 = new Data(1, "1", 100l);
         globalMap.put(data1.getId(), data1);
         assertTrue("Ошибка записи в файл", new DataDAOFileImpl().write(globalMap));
+    }
+
+    @After
+    public void cleanCache(){
+        globalMap.clear();
     }
 }

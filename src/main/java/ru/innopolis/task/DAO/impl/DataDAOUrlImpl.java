@@ -39,22 +39,16 @@ public class DataDAOUrlImpl implements DataDAO {
             } catch (IOException e) {
                 logger.error("error i/o in readUrl " + e.getMessage());
                 System.out.println("Ошибка ввода/вывода");
-                Runtime process = Runtime.getRuntime();
-                process.exit(1);
 
             } catch (ClassNotFoundException e) {
                 if(dataList.isEmpty()){
                     logger.error("in file not date for deserialization " + e.getMessage());
                     System.out.println("Не найдено данных для оъекта Data");
-                    Runtime process = Runtime.getRuntime();
-                    process.exit(1);
                 }
             }
         } catch (MalformedURLException e) {
             logger.error("error conection url " + e.getMessage());
             System.out.println("Ошибка подключение к URL");
-            Runtime process = Runtime.getRuntime();
-            process.exit(1);
         }
         return dataList;
     }

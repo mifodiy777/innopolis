@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -20,46 +22,36 @@ public class Run {
 
     private static Logger logger = LoggerFactory.getLogger(Run.class);
 
-    private AtomicInteger count = new AtomicInteger(0);
-
     private volatile Map<Integer, Data> globalMap = new ConcurrentHashMap<>();
 
     public static void main(String[] args) {
         //Проверка на ресурсы
-        if(args.length==0){
+        if (args.length == 0) {
             System.out.println("Нет ресурсов для загрузки в кеш");
             logger.warn("is't resources for download cache");
             return;
         }
         Run run = new Run();
+        ExecutorService exec = Executors.newFixedThreadPool(args.length);
         for (String src : args) {
-            if (src != null && !src.isEmpty()) {
-                    //Запуск потока под каждый ресурс
-                    new ResourceThread(run.globalMap,run.count, src);
-            }
+            //Запуск потока под каждый ресурс
+            exec.execute(new ResourceThread(run.globalMap, src));
         }
+        exec.shutdown();
         while (true) {
-            //Сравнение загруженных ресурсов с их исходным числом
-            if(args.length == run.count.get()) {
-                System.out.println("Данные успешно загружены в кеш");
-                logger.info("download cache complete");
-                System.out.println("Хотите выполнить выгрузку кеша в файл Y/N");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-                boolean startWrite = false;
-                try {
-                    //Если первая буква Y то файл будет выгружен
-                    startWrite = (reader.readLine().toUpperCase().startsWith("Y"));
-                } catch (IOException e) {
-                    logger.error("error i/o in write to file " + e.getMessage());
-                    System.out.println("Ошибка ввода/вывода");
-                }
-                if (startWrite) {
+            if (exec.isTerminated()) {
+                if (run.globalMap.isEmpty()) {
+                    System.out.println("Кеш пуст");
+                    logger.info("cache is empty");
+                } else {
+                    System.out.println("Данные успешно загружены в кеш");
+                    logger.info("download cache complete");
                     new DataDAOFileImpl().write(run.globalMap);
                 }
-                //После чего программа будет выполненна
                 break;
             }
         }
-
     }
+
 }
+

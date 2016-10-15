@@ -16,22 +16,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by innopolis on 10.10.16.
  */
-public class ResourceThread extends Thread {
+public class ResourceThread implements Runnable {
 
     private static Logger logger = LoggerFactory.getLogger(ResourceThread.class);
 
     //Переданный объект кеша
     private Map<Integer, Data> map;
-    //Счетчик количества записанных ресурсов
-    private AtomicInteger sum;
     //Путь к файлу
     private String src;
 
-    public ResourceThread(Map<Integer, Data> map, AtomicInteger sum, String src) {
+    public ResourceThread(Map<Integer, Data> map, String src) {
         this.map = map;
-        this.sum = sum;
         this.src = src;
-        this.start();
     }
 
     @Override
@@ -51,7 +47,6 @@ public class ResourceThread extends Thread {
                 //Добавляем в кеш
                 new DataServiceImpl(map).putAll(dataList);
                 //При успешном добавлении инкрементируем счетчик закаченных ресурсов
-                sum.addAndGet(1);
             } catch (DublicatException e) {
                 logger.error("in cache exist object Data " + e.getMessage());
                 //Останавливаем процесс при появлении дубликата

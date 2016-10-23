@@ -21,18 +21,16 @@ public class DataServiceImpl implements DataService {
 
     /**
      * Метод добавления в кеш
+     *
      * @param dataList Полученная коллекция объектов Data
      * @throws DublicatException при добавлении уже существующего объекта в кеш выбрасывается исключение
      */
     @Override
     public void putAll(List<Data> dataList) throws DublicatException {
         for (Data data : dataList) {
-            if (!dataMap.containsValue(data)) {
-                dataMap.put(data.getId(), data);
-            } else {
+            if (dataMap.put(data.getId(), data) != null) {
                 throw new DublicatException();
             }
-
         }
     }
 

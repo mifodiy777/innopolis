@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by innopolis on 10.10.16.
  */
-public class ResourceThread implements Runnable {
+public class ResourceThread {
 
     private static Logger logger = LoggerFactory.getLogger(ResourceThread.class);
 
@@ -30,30 +30,24 @@ public class ResourceThread implements Runnable {
         this.src = src;
     }
 
-    @Override
-    public void run() {
+    public String call() throws DublicatException {
         DataDAO dataDAO;
         //Проверка ресурса URL или файл на локальной машине
         if (src.toLowerCase().startsWith("http")) {
             dataDAO = new DataDAOUrlImpl();
         } else {
             dataDAO = new DataDAOFileImpl();
-
         }
         List<Data> dataList = dataDAO.read(src);
         //Если получилось сформировать коллекцию Data из ресурса
         if (dataList != null && dataList.size() > 0) {
-            try {
-                //Добавляем в кеш
-                new DataServiceImpl(map).putAll(dataList);
-                //При успешном добавлении инкрементируем счетчик закаченных ресурсов
-            } catch (DublicatException e) {
-                logger.error("in cache exist object Data " + e.getMessage());
-                //Останавливаем процесс при появлении дубликата
-                Runtime process = Runtime.getRuntime();
-                process.exit(1);
-            }
+            //Добавляем в кеш
+            new DataServiceImpl(map).putAll(dataList);
+            return "Данные из ресурса " + src + " загруженны";
+        } else {
+            return "Кеш пуст";
         }
+
     }
 
 

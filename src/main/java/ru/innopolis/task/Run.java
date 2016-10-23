@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -22,7 +23,9 @@ public class Run {
 
     private static Logger logger = LoggerFactory.getLogger(Run.class);
 
-    private volatile Map<Integer, Data> globalMap = new ConcurrentHashMap<>();
+    private static volatile Map<Integer, Data> globalMap = new ConcurrentHashMap<>();
+
+    private static ExecutorService exec = Executors.newCachedThreadPool();
 
     public static void main(String[] args) {
         //Проверка на ресурсы
@@ -31,22 +34,43 @@ public class Run {
             logger.warn("is't resources for download cache");
             return;
         }
-        Run run = new Run();
-        ExecutorService exec = Executors.newFixedThreadPool(args.length);
-        for (String src : args) {
-            //Запуск потока под каждый ресурс
-            exec.execute(new ResourceThread(run.globalMap, src));
+        try {
+            read(args);
+        } catch (IOException e) {
+            return;
         }
         exec.shutdown();
+        write();
+    }
+
+    private static void read(String[] args) throws IOException {
+
+        for (String src : args) {
+            //Запуск потока под каждый ресурс
+            ResourceThread thread = new ResourceThread(globalMap, src);
+            try {
+                System.out.println((exec.submit(thread::call)).get());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                logger.warn("Чтение ресурса не выполненно", e);
+                e.printStackTrace();
+                exec.shutdown();
+                throw new IOException("Чтение выполненно с ошибками.");
+            }
+        }
+    }
+
+    private static void write() {
         while (true) {
             if (exec.isTerminated()) {
-                if (run.globalMap.isEmpty()) {
+                if (globalMap.isEmpty()) {
                     System.out.println("Кеш пуст");
                     logger.info("cache is empty");
                 } else {
                     System.out.println("Данные успешно загружены в кеш");
                     logger.info("download cache complete");
-                    new DataDAOFileImpl().write(run.globalMap);
+                    new DataDAOFileImpl().write(globalMap);
                 }
                 break;
             }

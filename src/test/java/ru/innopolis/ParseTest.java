@@ -27,13 +27,13 @@ public class ParseTest {
 
     private static Logger log = LoggerFactory.getLogger(ParseTest.class);
 
-    private Map<Integer, Data> globalMap;
+    private Map<Integer, Data> globalMap = new HashMap<>();
 
     private Mockery context;
 
     @Before
     public void before() {
-        globalMap = new HashMap<>();
+        globalMap.clear();
         this.context = new JUnit4Mockery();
         log.info("инициализация контекста jMock и кеша");
     }
@@ -103,10 +103,5 @@ public class ParseTest {
         Data data1 = new Data(1, "1", 100l);
         globalMap.put(data1.getId(), data1);
         assertTrue("Ошибка записи в файл", new DataDAOFileImpl().write(globalMap));
-    }
-
-    @After
-    public void cleanCache(){
-        globalMap.clear();
     }
 }
